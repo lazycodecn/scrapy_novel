@@ -22,7 +22,7 @@ class Logging(object):
                                       datefmt='%Y-%m-%d %H:%M:%S',
                                       style='%')
         # 文件
-        file_handle = logging.FileHandler(f"{dir}{log_name}.log")
+        file_handle = logging.FileHandler(f"{dir}/{log_name}.log")
         file_handle.setFormatter(formatter)
 
         # 控制台日志

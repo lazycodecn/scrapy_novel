@@ -22,8 +22,9 @@ class RedisInstant(object):
     初始化Redis连接
     """
 
-    def __init__(self, tp, website):
-        self.redis = redis.StrictRedis(host='localhost', db=2, decode_responses=True)
+    def __init__(self, tp, website, rhost, rdb, rport, rpassword):
+        self.redis = redis.StrictRedis(host=rhost, db=int(rdb), password=rpassword, port=int(rport),
+                                       decode_responses=True)
         # 保存的类型
         self.type = tp
         # 保存的网站

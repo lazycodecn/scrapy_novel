@@ -30,8 +30,8 @@ class RandomUserAgentMiddleware(object):
 
 
 class RequestCheckMiddleWare(object):
-    def __init__(self, host, passwd, db):
-        self.rds = redis.StrictRedis(host=host, db=db, port=6379, password=passwd, decode_responses=True)
+    def __init__(self, host, passwd, db, port):
+        self.rds = redis.StrictRedis(host=host, db=db, port=port, password=passwd, decode_responses=True)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -39,7 +39,8 @@ class RequestCheckMiddleWare(object):
         h = crawler.settings.get('REDIS_HOST')
         db = crawler.settings.get('REDIS_DB_REQUEST')
         pw = crawler.settings.get('REDIS_PASSWORD')
-        s = cls(host=h, db=db, passwd=pw)
+        pt = int(crawler.settings.get('REDIS_PORT'))
+        s = cls(host=h, db=db, passwd=pw, port=pt)
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
@@ -79,8 +80,8 @@ class RequestCheckMiddleWare(object):
 
 class PostponeChapterSpiderMiddleware(object):
 
-    def __init__(self, host, passwd, db):
-        self.rds = redis.StrictRedis(host=host, db=db, port=6379, password=passwd, decode_responses=True)
+    def __init__(self, host, passwd, db, port):
+        self.rds = redis.StrictRedis(host=host, db=db, port=port, password=passwd, decode_responses=True)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -88,7 +89,8 @@ class PostponeChapterSpiderMiddleware(object):
         h = crawler.settings.get('REDIS_HOST')
         db = crawler.settings.get('REDIS_DB_DATA')
         pw = crawler.settings.get('REDIS_PASSWORD')
-        s = cls(host=h, db=db, passwd=pw)
+        pt = int(crawler.settings.get('REDIS_PORT'))
+        s = cls(host=h, db=db, passwd=pw, port=pt)
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         dispatcher.connect(s.add_delay_number, signals.item_scraped)
         return s

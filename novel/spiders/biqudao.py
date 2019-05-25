@@ -26,10 +26,11 @@ class BiqudaoSpider(scrapy.Spider):
         return spider
 
     def set_redis(self, crawler):
-        h = self.settings.get('REDIS_HOST')
-        db = self.settings.get('REDIS_DB_DATA')
-        pw = self.settings.get('REDIS_PASSWORD')
-        self.rds = redis.StrictRedis(host=h, db=db, password=pw)
+        self.rh = self.settings.get('REDIS_HOST')
+        self.rdb = self.settings.get('REDIS_DB_DATA')
+        self.rpw = self.settings.get('REDIS_PASSWORD')
+        self.rpt = int(self.settings.get('REDIS_PORT'))
+        self.rds = redis.StrictRedis(host=self.rh, db=self.rdb, password=self.rpw, port=self.rpt)
 
     def parse(self, response):
         i = NovelItem()
@@ -55,7 +56,7 @@ class BiqudaoSpider(scrapy.Spider):
     def start_requests(self):
         username = self.settings.get('USERNAME')
         password = self.settings.get('PASSWORD')
-        cookies = Login(username, password).cookies
+        cookies = Login(username, password, self.rh, self.rpt, self.rpw, self.rdb).cookies
         headers = {
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
                           'Chrome/74.0.3729.108 Safari/537.36',

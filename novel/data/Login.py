@@ -1,12 +1,10 @@
 import json
-from pyquery import PyQuery
 from functools import wraps
-from urllib.parse import urljoin
 
 import requests
+from novel.data.RedisClient import RedisInstant
 
 from novel.data.CustomLogging import Logging
-from novel.data.RedisClient import RedisInstant
 
 
 def singleton(cls):
@@ -28,9 +26,10 @@ class Login(object):  # self._cookies_file_url = 'cookies.txt'
     2.复习redis的使用
     """
 
-    def __init__(self, username='', password=''):
-        self.logger = Logging('m.biqudao.com').lg
-        self.__init_redis()
+    def __init__(self, username='', password='', rhost='0.0.0.0',
+                 rport=46379, rpassword='', rdb=5):
+        self.logger = Logging('m.biqudao.com', '/kindle', 'novel').lg
+        self.credis = RedisInstant('cookies', 'm.biqudao.com', rhost, rdb, rport, rpassword)
         self.username = username
         self.password = password
         self._cookies = None
@@ -116,9 +115,3 @@ class Login(object):  # self._cookies_file_url = 'cookies.txt'
             return True
         except Exception:
             return False
-
-    def __init_redis(self):
-        # self.uredis = RedisClient.RedisInstant('count','neworld.asia')
-        self.credis = RedisInstant('cookies', 'm.biqudao.com')
-
-
