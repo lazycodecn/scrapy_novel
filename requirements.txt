@@ -1,0 +1,7 @@
+twisted==18.7.0
+scrapy
+redis
+pyyaml
+cn2an==0.3.1
+pyquery
+requests

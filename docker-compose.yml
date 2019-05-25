@@ -1,0 +1,22 @@
+version: '1'
+
+services:
+  scrapy:
+    build: ./Dockerfile
+    container_name: scrapy_novel
+    dns:
+      - 114.114.114.114
+      - 233.5.5.5
+      - 8.8.4.4
+    ports:
+      - 12345
+    depends_on:
+      - rds
+
+  rds:
+    image: redis
+    container_name: wezhyn_redis
+    ports:
+      - "46379:6379"
+    links:
+      - scrapy
