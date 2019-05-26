@@ -1,1 +1,1 @@
-*/1 * * * * sh /novel/novel.sh
+30 * * * * sh /novel/novel.sh
