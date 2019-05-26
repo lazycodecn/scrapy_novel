@@ -34,5 +34,5 @@ fi
 ebook-convert "$txt_url" "$mobi_name"  --input-profile=kindle --output-profile=kindle_pw3  --change-justification=left  --smarten-punctuation --enable-heuristics --language=zh --authors="$author"
 
 
-#calibre-smtp -a "$mobi_name" -p ebsjyzhocgrsjgjb -r smtp.qq.com --port=465 -e SSL -u wezhyn@qq.com wezhyn@qq.com wezhyn@kindle.cn ""
+calibre-smtp -a "$mobi_name" -p ebsjyzhocgrsjgjb -r smtp.qq.com --port=465 -e SSL -u wezhyn@qq.com wezhyn@qq.com wezhyn@kindle.cn ""
 
