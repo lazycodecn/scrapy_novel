@@ -16,9 +16,9 @@ RUN    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list 
     && apt-get install -y cron \
     && touch /novel/novel.log   \
 
-    && chmod 777 /novel/entrypoint.sh \
+#    && chmod 777 /novel/entrypoint.sh \
 
-    && mv /novel/root  /var/spool/cron/crontabs \
+    && cp /novel/root  /var/spool/cron/crontabs \
     && chmod 600 /var/spool/cron/crontabs/root    \
     && chown -R root:crontab /var/spool/cron/crontabs/root \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
