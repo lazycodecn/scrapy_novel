@@ -9,7 +9,7 @@ services:
       - rds
     volumes:
       - "/kindle:/kindle"
-    command: ls /novel && service cron start && crontab /novel/root && tail -f /novel/novel.log
+    command: bash -c "ls /novel && service cron start && crontab /novel/root && tail -f /novel/novel.log"
     tty: true
     restart: always
 
