@@ -15,8 +15,10 @@ RUN    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list 
     && apt-get update  \
     && apt-get install -y cron \
     && touch /novel/novel.log   \
+
     && chmod 777 /novel/entrypoint.sh \
-    && mv /novel/root /var/spool/cron/crontabs \
+
+    && mv /novel/root  /var/spool/cron/crontabs \
     && chmod 600 /var/spool/cron/crontabs/root    \
     && chown -R root:crontab /var/spool/cron/crontabs/root \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
@@ -29,4 +31,5 @@ RUN    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list 
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENTRYPOINT ["./entrypoint.sh"]
+#ENTRYPOINT ["./entrypoint.sh"]
+CMD service cron restart && tail -f  /novel/novel.log
