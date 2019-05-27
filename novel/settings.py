@@ -6,7 +6,7 @@ PASSWORD = '111111'
 DOMAIN = "m.biqudao.com"
 
 BASE_URL = '/kindle/'
-REDIS_HOST = "rds"
+REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_PASSWORD = ""
 # db1 储存常规数据

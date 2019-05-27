@@ -2,9 +2,8 @@ import json
 from functools import wraps
 
 import requests
-from novel.data.RedisClient import RedisInstant
 
-from novel.data.CustomLogging import Logging
+from novel.data.RedisFactory import AbstractRedis
 
 
 def singleton(cls):
@@ -26,10 +25,9 @@ class Login(object):  # self._cookies_file_url = 'cookies.txt'
     2.复习redis的使用
     """
 
-    def __init__(self, username='', password='', rhost='0.0.0.0',
-                 rport=46379, rpassword='', rdb=5):
-        self.logger = Logging('m.biqudao.com', '/kindle', 'novel').lg
-        self.credis = RedisInstant('cookies', 'm.biqudao.com', rhost, rdb, rport, rpassword)
+    def __init__(self, username='', password='', settings="", logger=None):
+        self.logger = logger
+        self.credis = AbstractRedis.create_redis_instant(settings, 'cookies:m.biqudao.com', "hash")
         self.username = username
         self.password = password
         self._cookies = None
@@ -58,7 +56,8 @@ class Login(object):  # self._cookies_file_url = 'cookies.txt'
         else:
             return self.get_cookies_from_redis()
 
-    def check_status(self, status_code):
+    @staticmethod
+    def check_status(status_code):
         """
         判断返回信息的状态码,如果为302,则返回 False
         :param status_code: 状态码
