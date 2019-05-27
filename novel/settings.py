@@ -3,6 +3,8 @@
 USERNAME = 'wezhyn'
 PASSWORD = '111111'
 
+NOVEL_CASE_URL = "https://m.biqudao.com/case.php"
+
 DOMAIN = "m.biqudao.com"
 
 BASE_URL = '/kindle/'

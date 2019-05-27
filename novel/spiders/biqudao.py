@@ -2,6 +2,9 @@
 import re
 from datetime import datetime
 from urllib.parse import urljoin
+
+import requests
+
 from novel.data.RedisFactory import AbstractRedis
 import cn2an
 import redis
@@ -30,6 +33,7 @@ class BiqudaoSpider(scrapy.Spider):
         # 此 spider禁止调用 get,set
         # todo:添加禁止的操作
         self.rds = AbstractRedis.create_redis_instant(crawler.settings, "", "hash")
+        self.case_url = crawler.settings.get('NOVEL_CASE_URL')
 
     def parse(self, response):
         i = NovelItem()
@@ -58,10 +62,13 @@ class BiqudaoSpider(scrapy.Spider):
         password = self.settings.get('PASSWORD')
         cookies = Login(username, password, self.settings, logger=self.logger).cookies
         headers = {
+            "cache-control": "no-cache",
+            "upgrade-insecure-requests": 1,
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
                           'Chrome/74.0.3729.108 Safari/537.36',
         }
-        r = PyQuery('https://m.biqudao.com/case.php', cookies=cookies, headers=headers)
+        rcase = requests.get(self.case_url, cookies=cookies, headers=headers)
+        r = PyQuery(rcase.text)
         # 获取 个人书架列表
         hotSales = r('.hot_sale').items()
 

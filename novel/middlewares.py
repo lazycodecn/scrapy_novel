@@ -134,8 +134,8 @@ class PostponeChapterSpiderMiddleware(object):
         rds = AbstractRedis.create_redis_instant_no_bind_key(self.settings, "string")
         book_delay_dist = rds.hgetall('delay')
         for v, k in book_delay_dist.items():
-            self.rds.hincrby(v, 'flag', int(k))
-        self.rds.delete('delay')
+            rds.hincrby(v, 'flag', int(k))
+        rds.delete('delay')
 
     def process_start_requests(self, start_requests, spider):
         # Called with the start requests of the spider, and works
